@@ -70,6 +70,23 @@
         .btn-buy { background: var(--primary); color: black; }
         .btn-sell { background: var(--secondary); color: black; }
 
+        /* File Upload Styling */
+        .file-upload-container {
+            margin-bottom: 15px;
+        }
+        .file-label {
+            display: block;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed var(--primary);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        #s_images { display: none; }
+
         .bottom-nav { position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(10, 15, 25, 0.9); backdrop-filter: blur(20px); display: flex; justify-content: space-around; padding: 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); z-index: 1001; }
         .nav-item { color: #64748b; text-align: center; font-size: 0.75rem; cursor: pointer; text-decoration: none; }
         .nav-item i { font-size: 1.4rem; display: block; margin-bottom: 4px; }
@@ -136,6 +153,15 @@
             <input type="text" id="s_uid" placeholder="UID & Level">
             <textarea id="s_desc" rows="4" placeholder="ID Highlights"></textarea>
             <input type="number" id="s_price" placeholder="Price (₹)">
+            
+            <div class="file-upload-container">
+                <label for="s_images" class="file-label">
+                    <i class="fas fa-image"></i> Choose ID Images
+                </label>
+                <input type="file" id="s_images" multiple accept="image/*" onchange="updateFileCount()">
+                <p id="file-status" style="text-align: center; font-size: 0.8rem; margin-top: 5px; color: #94a3b8;">No images selected</p>
+            </div>
+
             <button class="btn btn-sell" onclick="submitSell()">Submit Request</button>
         </div>
     </div>
@@ -161,8 +187,13 @@
 
         function buyID(name, price) {
             let msg = `Hello! I want to buy this ID:%0A%0A*ID Name:* ${name}%0A*Price:* ${price}`;
-            // location.href பயன்படுத்துவதால் டைரக்ட் லிங்காக வேலை செய்யும்
             window.location.href = `https://wa.me/${myNumber}?text=${msg}`;
+        }
+
+        function updateFileCount() {
+            let input = document.getElementById('s_images');
+            let status = document.getElementById('file-status');
+            status.innerText = input.files.length > 0 ? `${input.files.length} images selected` : "No images selected";
         }
 
         function submitSell() {
@@ -171,10 +202,16 @@
             let u = document.getElementById('s_uid').value;
             let d = document.getElementById('s_desc').value;
             let pr = document.getElementById('s_price').value;
+            let imgCount = document.getElementById('s_images').files.length;
 
             if(!n || !pr) { alert("விவரங்களை நிரப்பவும்!"); return; }
 
             let msg = `*NEW SELL REQUEST*%0A%0A*Name:* ${n}%0A*WhatsApp:* ${p}%0A*UID/Level:* ${u}%0A*Details:* ${d}%0A*Price:* ₹${pr}`;
+            
+            if(imgCount > 0) {
+                msg += `%0A%0A*Images:* ${imgCount} images selected.%0A(Please attach the selected images now)`;
+            }
+
             window.location.href = `https://wa.me/${myNumber}?text=${msg}`;
         }
 

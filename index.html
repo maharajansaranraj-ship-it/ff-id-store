@@ -122,7 +122,7 @@
                 <p>UID: 1029XXXXXX | Level: 72</p>
                 <div class="price-row">
                     <span class="price">₹ 400</span>
-                    <button class="btn btn-buy" style="width: auto; padding: 8px 15px;" onclick="buyID('Cobra MP40 Max ID', '₹ 4,500')">Buy</button>
+                    <button class="btn btn-buy" style="width: auto; padding: 8px 15px;" onclick="buyID('Cobra MP40 Max ID', '₹ 400')">Buy</button>
                 </div>
             </div>
         </div>
@@ -148,6 +148,7 @@
     </div>
 
     <script>
+        // உங்கள் எண் இங்கே உள்ளது
         const myNumber = "917845229384";
 
         function showPage(pageId, element) {
@@ -159,11 +160,13 @@
             window.scrollTo(0,0);
         }
 
+        // Buy பட்டன் ஃபங்க்ஷன்
         function buyID(name, price) {
             let msg = `Hello! I want to buy this ID:%0A%0A*ID Name:* ${name}%0A*Price:* ${price}`;
             window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
         }
 
+        // Sell பட்டன் ஃபங்க்ஷன்
         function submitSell() {
             let n = document.getElementById('s_name').value;
             let p = document.getElementById('s_phone').value;
@@ -171,9 +174,9 @@
             let d = document.getElementById('s_desc').value;
             let pr = document.getElementById('s_price').value;
 
-            if(!n || !pr) { alert("Please fill details!"); return; }
+            if(!n || !pr) { alert("விவரங்களை நிரப்பவும்!"); return; }
 
-            let msg = `*NEW SELL REQUEST*%0A%0A*Name:* ${n}%0A*Phone:* ${p}%0A*UID/Lvl:* ${u}%0A*Details:* ${d}%0A*Expected Price:* ₹${pr}`;
+            let msg = `*NEW SELL REQUEST*%0A%0A*Name:* ${n}%0A*WhatsApp:* ${p}%0A*UID/Level:* ${u}%0A*Details:* ${d}%0A*Price:* ₹${pr}`;
             window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
         }
 

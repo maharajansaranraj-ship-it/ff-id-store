@@ -416,15 +416,24 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         <h2 id="p-name" style="font-family: 'Orbitron'; color: var(--primary);">Soldier</h2>
         <p id="p-phone" style="color: #94a3b8; margin-bottom: 20px;">+91 0000000000</p>
         <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
-            <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary);">0</div><small>Deals</small>
-            </div>
-            <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">0</div><small>Level</small>
-            </div>
-            <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                <div id="p-rank" style="font-size: 1rem; font-weight: bold; color: var(--accent);">Bronze</div><small>Rank</small>
-            </div>
+    <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
+        <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary);">0</div>
+        <small>Deals</small>
+    </div>
+
+    <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
+        <div style="font-size: 1.2rem; font-weight: bold; color: #ffcc00; display: flex; align-items: center; justify-content: center; gap: 4px;">
+            <i class="fas fa-coins"></i> <span id="p-coins">0</span>
+        </div>
+        <small>Coins</small>
+    </div>
+
+    <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
+        <div id="p-rank" style="font-size: 1rem; font-weight: bold; color: var(--accent);">Bronze</div>
+        <small>Rank</small>
+    </div>
+</div>
+
         </div>
         <button class="btn-sell" style="background: var(--accent); color: white;" onclick="logout()">LOGOUT</button>
     </div>
@@ -550,12 +559,18 @@ function verifyOTP() {
     const oldCrown = document.querySelector('.crown-overlay');
     if (oldCrown) oldCrown.remove();
 
-    if(userData) {
-        pName.innerText = userData.name;
-        pPhone.innerText = "+91 " + userData.phone;
-        stats[0].innerText = userData.deals; 
-        stats[1].innerText = userData.level; 
-        rankEl.innerText = userData.rank;
+    // updateProfileUI function kulla intha maari mathunga
+if(userData) {
+    pName.innerText = userData.name;
+    pPhone.innerText = "+91 " + userData.phone;
+    stats[0].innerText = userData.deals; 
+    
+    // Inga level value-va coin span-kulla podrom
+    document.getElementById('p-coins').innerText = userData.level; 
+    
+    rankEl.innerText = userData.rank;
+    // ... matha rank logic ellam apdiye irukkatum
+}
 
         if(userData.rank === "Elite Master") {
             pImg.classList.add('profile-img-master');

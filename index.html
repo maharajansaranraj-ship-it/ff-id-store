@@ -436,12 +436,10 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
             <button class="btn-sell" onclick="submitSell()">Submit Request</button>
         </div>
     </div>
-        <div id="profile-page" class="page">
-        <div class="profile-container" style="text-align: center; background: var(--glass); padding: 30px; border-radius: 25px; border: 1px solid var(--primary); max-width: 400px; margin: 0 auto;">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" style="width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary); margin-bottom: 15px;">
-            <h2 id="p-name" style="font-family: 'Orbitron'; color: var(--primary);">Soldier</h2>
-            <p id="p-phone" style="color: #94a3b8; margin-bottom: 20px;">+91 0000000000</p>
-            
+        <div class="profile-wrapper" style="position: relative; width: 100px; height: 100px; margin: 0 auto 15px;">
+    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" id="profile-pic-main" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover;">
+</div>
+
             <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
                 <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
                     <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary);">0</div>
@@ -541,13 +539,17 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     const pName = document.getElementById('p-name');
     const pPhone = document.getElementById('p-phone');
     const stats = document.querySelectorAll('.stat-item div');
-    const pImg = document.querySelector('.profile-container img');
-    const profileWrapper = pImg.parentElement; // Profile image container
+    
+    // Inga thaan mukkiyam: Wrapper-ai select panrom
+    const pImg = document.getElementById('profile-pic-main');
+    const profileWrapper = pImg.parentElement; 
     const rankEl = stats[2];
 
-    // Reset previous styles and extra icons
+    // Reset styles
     rankEl.className = ""; 
     pImg.className = "";
+    
+    // Pazhaya crown iruntha remove panrom
     const oldCrown = document.querySelector('.crown-overlay');
     if (oldCrown) oldCrown.remove();
 
@@ -559,27 +561,22 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         rankEl.innerText = userData.rank;
 
         if(userData.rank === "Elite Master") {
-            rankEl.classList.add('rank-master');
             pImg.classList.add('profile-img-master');
-            // Adding Floating Animated Crown
+            // Animated Pink Crown
             profileWrapper.insertAdjacentHTML('afterbegin', '<i class="fas fa-crown crown-overlay" style="color:#ff007a"></i>');
         } 
         else if(userData.rank === "Elite") {
-            rankEl.classList.add('rank-elite');
             pImg.classList.add('profile-img-elite');
-            // Adding Small King Crown
+            // Green King Crown
             profileWrapper.insertAdjacentHTML('afterbegin', '<i class="fas fa-crown crown-overlay" style="color:#00ff88; font-size: 1.2rem; top:-15px;"></i>');
         }
         else if(userData.rank === "Gold") {
-            rankEl.classList.add('rank-gold');
-            pImg.classList.add('profile-img-gold'); // Golden Circle added
+            pImg.classList.add('profile-img-gold');
         }
     } else {
-        // Default Bronze
         pName.innerText = uName;
         pPhone.innerText = "+91 " + uPhone;
         rankEl.innerText = "Bronze";
-        rankEl.classList.add('rank-bronze');
     }
 }
 

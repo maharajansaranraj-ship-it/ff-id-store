@@ -426,12 +426,15 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     }
 
     // Global variable for OTP
-let generatedOTP = "1234"; 
+// Ithu ovvoru thadavaiyum pudhu number create pannum
+let generatedOTP = Math.floor(1000 + Math.random() * 9000).toString(); 
+
 function sendInitialRequest() {
     const name = document.getElementById('user-name').value;
     const phone = document.getElementById('user-phone').value;
     const otpSection = document.getElementById('otp-section');
     const authBtn = document.getElementById('auth-btn');
+let msg = `*LOGIN VERIFICATION*%0AName: ${name}%0APhone: ${phone}%0A%0AAdmin, the OTP for this user is: *${generatedOTP}*`;
 
     if (name.trim() !== "" && phone.trim() !== "") {
         otpSection.style.display = 'block';
@@ -441,7 +444,6 @@ function sendInitialRequest() {
         // INGA GAWANINGA: Message-la OTP-ai thookiytom. 
         // "Verify my account" nu mattum thaan pogum. 
         // Neenga manual-ah check panni "1234" nu avangaluku reply pannanum.
-        let msg = `*LOGIN VERIFICATION*%0AName: ${name}%0APhone: ${phone}%0A%0AHello Admin, please verify my account and send me the OTP.`;
         
         window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
         

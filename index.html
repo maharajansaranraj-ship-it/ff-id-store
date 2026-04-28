@@ -284,6 +284,11 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
 
 <div id="login-overlay">
     <div class="login-box">
+        <div id="otp-section" style="display: none;">
+    <input type="number" id="otp-input" placeholder="Enter OTP (Sent to WhatsApp)" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--secondary);">
+</div>
+<button id="auth-btn" class="btn-auth" onclick="sendInitialRequest()">VERIFY & START</button>
+
         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"> 
         <h2 style="font-family: 'Orbitron'; color: var(--primary);">SOLDIER LOGIN</h2>
         <input type="text" id="user-name" placeholder="Enter Nickname" style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
@@ -417,14 +422,48 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         }
     }
 
-    function handleAuth() {
-        const name = document.getElementById('user-name').value;
-        const phone = document.getElementById('user-phone').value;
+    // Global variable for OTP
+let generatedOTP = "1234"; 
+
+function sendInitialRequest() {
+    const name = document.getElementById('user-name').value;
+    const phone = document.getElementById('user-phone').value;
+    const otpSection = document.getElementById('otp-section');
+    const authBtn = document.getElementById('auth-btn');
+
+    if (name.trim() !== "" && phone.trim() !== "") {
+        // Step 1: OTP input box-ai open pannum
+        otpSection.style.display = 'block';
+        authBtn.innerText = "SUBMIT OTP";
         
-        if (name.trim() !== "" && phone.trim() !== "") {
-            localStorage.setItem('ff_username', name.trim());
-            localStorage.setItem('ff_userphone', phone.trim());
-            
+        // Button click function-ai verifyOTP-ku mathum
+        authBtn.onclick = verifyOTP;
+
+        // Step 2: Admin-ku (Ungalukku) message pogum
+        let msg = `*OTP REQUEST*%0AName: ${name}%0APhone: ${phone}%0AAdmin, please send code *${generatedOTP}* to this user.`;
+        window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
+        
+        alert("OTP request sent! WhatsApp-la Admin-ai contact panni code vaangunga.");
+    } else {
+        alert("Nickname mattrum Phone number-ai enter seiyungal!");
+    }
+}
+
+function verifyOTP() {
+    const enteredOTP = document.getElementById('otp-input').value;
+    const name = document.getElementById('user-name').value;
+    const phone = document.getElementById('user-phone').value;
+
+    if (enteredOTP === generatedOTP) {
+        localStorage.setItem('ff_username', name.trim());
+        localStorage.setItem('ff_userphone', phone.trim());
+        alert("OTP Verified! Welcome " + name);
+        location.reload(); // Page reload aagi profile update aagum
+    } else {
+        alert("Wrong OTP! Please enter correct code.");
+    }
+}
+
             // Step 1: Admin-ku register aana udanae WhatsApp alert pogum
             let welcomeMsg = `*NEW USER REGISTERED*%0AName: ${name}%0APhone: ${phone}%0AStatus: Logged In`;
             window.open(`https://wa.me/${myNumber}?text=${welcomeMsg}`, '_blank');

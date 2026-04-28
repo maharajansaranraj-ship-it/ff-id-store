@@ -512,53 +512,59 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         if (el) el.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+        function updateProfileUI() {
+        // Step 1: User details-ai edukkuram
+        const uPhone = String(localStorage.getItem('ff_userphone') || "").trim();
+        const uName = localStorage.getItem('ff_username') || "Soldier";
+        
+        // Step 2: List-la matching number irukkannu check panrom
+        const userData = registeredUsers.find(u => String(u.phone).trim() === uPhone);
 
-    function updateProfileUI() {
-    const uPhone = localStorage.getItem('ff_userphone') || "";
-    const uName = localStorage.getItem('ff_username') || "Soldier";
-    
-    const userData = registeredUsers.find(u => u.phone === uPhone);
+        const pName = document.getElementById('p-name');
+        const pPhone = document.getElementById('p-phone');
+        const stats = document.querySelectorAll('.stat-item div');
+        const pImg = document.querySelector('.profile-container img');
+        const rankEl = stats[2];
 
-    const pName = document.getElementById('p-name');
-    const pPhone = document.getElementById('p-phone');
-    const stats = document.querySelectorAll('.stat-item div');
-    const pImg = document.querySelector('.profile-container img');
-    const rankEl = stats[2];
+        // Reset Styles
+        rankEl.className = ""; 
+        pImg.className = "";
 
-    rankEl.className = ""; 
-    pImg.className = "";
+        if(userData) {
+            // Match aana intha details varum
+            pName.innerText = userData.name;
+            pPhone.innerText = "+91 " + userData.phone;
+            stats[0].innerText = userData.deals; 
+            stats[1].innerText = userData.level; 
+            rankEl.innerText = userData.rank;
 
-    if(userData) {
-        pName.innerText = userData.name;
-        pPhone.innerText = "+91 " + userData.phone;
-        stats[0].innerText = userData.deals; 
-        stats[1].innerText = userData.level; 
-        rankEl.innerText = userData.rank;
-
-        if(userData.rank === "Elite Master") {
-            rankEl.classList.add('rank-master');
-            pImg.classList.add('profile-img-master');
-            pName.innerHTML = userData.name + ' <i class="fas fa-crown" style="color:#ff007a"></i>';
-        } 
-        else if(userData.rank === "Elite") {
-            rankEl.classList.add('rank-elite');
-            pImg.classList.add('profile-img-elite');
-            pName.innerHTML = userData.name + ' <i class="fas fa-check-circle" style="color:#00ff88"></i>';
+            if(userData.rank === "Elite Master") {
+                rankEl.classList.add('rank-master');
+                pImg.classList.add('profile-img-master');
+                pName.innerHTML = userData.name + ' <i class="fas fa-crown" style="color:#ff007a"></i>';
+            } 
+            else if(userData.rank === "Elite") {
+                rankEl.classList.add('rank-elite');
+                pImg.classList.add('profile-img-elite');
+                pName.innerHTML = userData.name + ' <i class="fas fa-check-circle" style="color:#00ff88"></i>';
+            }
+            else if(userData.rank === "Gold") {
+                rankEl.classList.add('rank-gold');
+                pName.innerHTML = userData.name + ' <i class="fas fa-star" style="color:#ffd700"></i>';
+            }
+        } else {
+            // Match aagala-na default bronze varum
+            pName.innerText = uName;
+            pPhone.innerText = "+91 " + uPhone;
+            stats[0].innerText = "0";
+            stats[1].innerText = "0";
+            rankEl.innerText = "Bronze";
+            rankEl.classList.add('rank-bronze');
         }
-        else if(userData.rank === "Gold") {
-            rankEl.classList.add('rank-gold');
-            pName.innerHTML = userData.name + ' <i class="fas fa-star" style="color:#ffd700"></i>';
-        }
-    } else {
-        pName.innerText = uName;
-        pPhone.innerText = "+91 " + uPhone;
-        stats[0].innerText = "0";
-        stats[1].innerText = "0";
-        rankEl.innerText = "Bronze";
-        rankEl.classList.add('rank-bronze');
     }
-}
 
+
+    
 
     function logout() {
         if(confirm("Logout seiya nichayamaga virumbugireergal?")) {

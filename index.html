@@ -427,6 +427,7 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
 
     // Global variable for OTP
 // Ithu ovvoru thadavaiyum pudhu number create pannum
+// Random OTP generate aagum
 let generatedOTP = Math.floor(1000 + Math.random() * 9000).toString(); 
 
 function sendInitialRequest() {
@@ -434,17 +435,15 @@ function sendInitialRequest() {
     const phone = document.getElementById('user-phone').value;
     const otpSection = document.getElementById('otp-section');
     const authBtn = document.getElementById('auth-btn');
-let msg = `*LOGIN VERIFICATION*%0AName: ${name}%0APhone: ${phone}%0A%0AAdmin, the OTP for this user is: *${generatedOTP}*`;
 
     if (name.trim() !== "" && phone.trim() !== "") {
+        // Message function-kullaiye irunthathaan correct-ana details edukkum
+        let msg = `*LOGIN VERIFICATION*%0AName: ${name}%0APhone: ${phone}%0A%0AAdmin, the OTP for this user is: *${generatedOTP}*`;
+
         otpSection.style.display = 'block';
         authBtn.innerText = "SUBMIT OTP";
         authBtn.onclick = verifyOTP;
 
-        // INGA GAWANINGA: Message-la OTP-ai thookiytom. 
-        // "Verify my account" nu mattum thaan pogum. 
-        // Neenga manual-ah check panni "1234" nu avangaluku reply pannanum.
-        
         window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
         
         alert("Verification request sent! WhatsApp-la Admin-kitta OTP vaangunga.");

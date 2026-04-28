@@ -275,12 +275,13 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     </style>
 </head>
 <body>
-<div id="preloader">
+    <div id="preloader">
     <div class="loader-content">
         <div class="circle-loader"></div>
         <div class="loader-text">FF STORE</div>
     </div>
 </div>
+
 <div id="login-overlay">
     <div class="login-box">
         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"> 
@@ -291,208 +292,103 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     </div>
 </div>
 
-
-
-    <header>
+<header>
     <div class="logo">FF STORE PRO</div>
     <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()" style="position: absolute; right: 20px; cursor: pointer; color: var(--primary);"></i>
 </header>
 
-
-    <div id="search-area" class="search-container" style="display: none;">
-        <div class="search-box">
-            <i class="fas fa-search" style="color: var(--primary);"></i>
-            <input type="text" id="idSearch" placeholder="Search ID, Evo, Bundles..." onkeyup="filterIDs()">
-        </div>
-        <div class="filter-scroll">
-            <div class="filter-chip active" onclick="filterCategory('all', this)">All IDs</div>
-            <div class="filter-chip" onclick="toggleBudgetList(this)">
-    <i class="fas fa-tags"></i> Budget
-</div>
-<div id="budget-options" style="display: none; gap: 10px;">
-    <div class="filter-chip" onclick="filterByPrice(500, this)">Under ₹550</div>
-    <div class="filter-chip" onclick="filterByPrice(1000, this)">Under ₹1100</div>
-</div>
-
-            <div class="filter-chip" onclick="filterCategory('evo', this)">Evo Guns</div>
-            <div class="filter-chip" onclick="filterCategory('rare', this)">Rare Bundles</div>
-            <div class="filter-chip" onclick="filterCategory('old', this)">Old ID</div>
-            
-        </div>
+<div id="search-area" class="search-container" style="display: none;">
+    <div class="search-box">
+        <i class="fas fa-search" style="color: var(--primary);"></i>
+        <input type="text" id="idSearch" placeholder="Search ID, Evo, Bundles..." onkeyup="filterIDs()">
     </div>
-
-    <div id="home" class="page active-page">
-        <div class="hero-card">
-            <h2 style="color: var(--primary);">Premium Experience</h2>
-            <p style="color: #94a3b8; margin: 10px 0 20px;">The Most Trusted FF Marketplace</p>
-            <div class="verified-badge">Verified ✅</div>
-            <button class="btn-action" style="margin-top: 15px;" onclick="showPage('buy', document.getElementById('nav-buy'))">Visit Store</button>
+    <div class="filter-scroll">
+        <div class="filter-chip active" onclick="filterCategory('all', this)">All IDs</div>
+        <div class="filter-chip" onclick="toggleBudgetList(this)"><i class="fas fa-tags"></i> Budget</div>
+        <div id="budget-options" style="display: none; gap: 10px;">
+            <div class="filter-chip" onclick="filterByPrice(500, this)">Under ₹550</div>
+            <div class="filter-chip" onclick="filterByPrice(1000, this)">Under ₹1100</div>
         </div>
-
-        <div class="trust-grid">
-            <div class="trust-item"><i class="fas fa-shield-alt"></i><p>Secure<br>Payment</p></div>
-            <div class="trust-item"><i class="fas fa-bolt"></i><p>Fast<br>Delivery</p></div>
-            <div class="trust-item"><i class="fas fa-user-check"></i><p>Verified<br>Sellers</p></div>
-        </div>
-
-        <div class="hero-card" style="background: rgba(255,255,255,0.02); padding: 15px; border-style: dashed;">
-            <p style="font-size: 0.9rem; color: #94a3b8;">எங்கள் தளம் 100% நம்பகமானது. உங்கள் ஐடி பாதுகாப்பாக கைமாற்றப்படும். 24/7 கஸ்டமர் சப்போர்ட் உண்டு.</p>
-        </div>
-    </div>
-
-    <div id="buy" class="page">
-        <div id="id-list">
-        <div class="id-card" data-category="evo" data-title="Blue Flame Draco Max">
-    <div class="slider-wrapper">
-        <div class="id-image-container" onscroll="updateDots(this)">
-            <img src="id3.jpg" alt="pic3">
-        </div>
-    </div>
-    <div class="slider-dots"><div class="dot active"></div></div>
-    <h3 style="margin-top:10px;">AK Blue Flame Draco Max</h3>
-    <p style="color: #94a3b8; font-size: 0.85rem;">UID: 3344XXXXXX | Level: 65</p>
-    <div class="price-row">
-        <span class="price">₹ 800</span>
-        <button class="btn-action" onclick="buyID('AK Draco Max', '₹ 800')">Buy Now</button>
+        <div class="filter-chip" onclick="filterCategory('evo', this)">Evo Guns</div>
+        <div class="filter-chip" onclick="filterCategory('rare', this)">Rare Bundles</div>
+        <div class="filter-chip" onclick="filterCategory('old', this)">Old ID</div>
     </div>
 </div>
 
-<div class="id-card" data-category="old" data-title="Old Season Shirt">
-    <div class="slider-wrapper">
-        <div class="id-image-container" onscroll="updateDots(this)">
-            <img src="id4.jpg" alt="pic4">
-        </div>
+<div id="home" class="page active-page">
+    <div class="hero-card">
+        <h2 style="color: var(--primary);">Premium Experience</h2>
+        <p style="color: #94a3b8; margin: 10px 0 20px;">The Most Trusted FF Marketplace</p>
+        <div class="verified-badge">Verified ✅</div>
+        <button class="btn-action" style="margin-top: 15px;" onclick="showPage('buy', document.getElementById('nav-buy'))">Visit Store</button>
     </div>
-    <div class="slider-dots"><div class="dot active"></div></div>
-    <h3 style="margin-top:10px;">Old Collection ID</h3>
-    <p style="color: #94a3b8; font-size: 0.85rem;">UID: 5566XXXXXX | Level: 55</p>
-    <div class="price-row">
-        <span class="price">₹ 350</span>
-        <button class="btn-action" onclick="buyID('Old Collection', '₹ 350')">Buy Now</button>
-    </div>
-</div>
-
-<div class="id-card" data-category="rare" data-title="Full Evo Gun Max">
-    <div class="slider-wrapper">
-        <div class="id-image-container" onscroll="updateDots(this)">
-            <img src="id5.jpg" alt="pic5">
-        </div>
-    </div>
-    <div class="slider-dots"><div class="dot active"></div></div>
-    <h3 style="margin-top:10px;">Full Evo Gun Max ID</h3>
-    <p style="color: #94a3b8; font-size: 0.85rem;">UID: 8899XXXXXX | Level: 75</p>
-    <div class="price-row">
-        <span class="price">₹ 2500</span>
-        <button class="btn-action" onclick="buyID('Full Evo Max', '₹ 2500')">Buy Now</button>
+    <div class="trust-grid">
+        <div class="trust-item"><i class="fas fa-shield-alt"></i><p>Secure<br>Payment</p></div>
+        <div class="trust-item"><i class="fas fa-bolt"></i><p>Fast<br>Delivery</p></div>
+        <div class="trust-item"><i class="fas fa-user-check"></i><p>Verified<br>Sellers</p></div>
     </div>
 </div>
 
-    <div class="id-card" data-category="evo">
-        <div class="slider-wrapper">
-            <div class="id-image-container" onscroll="updateDots(this)">
-                <img src="id1.jpg" alt="pic1">
+<div id="buy" class="page">
+    <div id="id-list">
+        <div class="id-card" data-category="evo">
+            <div class="slider-wrapper">
+                <div class="id-image-container" onscroll="updateDots(this)"><img src="id3.jpg"></div>
             </div>
-        </div>
-        <div class="slider-dots"><div class="dot active"></div></div>
-        <h3 style="margin-top:10px;">Cobra MP40 ID</h3>
-        <p style="color: #94a3b8; font-size: 0.85rem;">UID: 1029XXXXXX | Level: 72</p>
-        <div class="price-row">
-            <span class="price">₹ 400</span>
-            <button class="btn-action" onclick="buyID('Cobra ID', '₹ 400')">Buy Now</button>
-        </div>
-    </div>
-
-    <div class="id-card" data-category="rare">
-        <div class="slider-wrapper">
-            <div class="id-image-container" onscroll="updateDots(this)">
-                <img src="profile.jpg" alt="pic2">
-            </div>
-        </div>
-        <div class="slider-dots"><div class="dot active"></div></div>
-        <h3 style="margin-top:10px;">Premium Rare Bundle ID</h3>
-        <p style="color: #94a3b8; font-size: 0.85rem;">UID: 2288XXXXXX | Level: 60</p>
-        <div class="price-row">
-            <span class="price">₹ 1500</span>
-            <button class="btn-action" onclick="buyID('Rare ID', '₹ 1500')">Buy Now</button>
+            <div class="slider-dots"><div class="dot active"></div></div>
+            <h3>AK Blue Flame Draco Max</h3>
+            <div class="price-row"><span class="price">₹ 800</span><button class="btn-action" onclick="buyID('AK Draco', '₹ 800')">Buy Now</button></div>
         </div>
     </div>
 </div>
 
+<div id="sell" class="page">
+    <h2 style="text-align: center; color: var(--secondary); margin-bottom: 20px;">Sell Your Account</h2>
+    <div class="premium-form">
+        <input type="text" id="s_name" placeholder="Full Name">
+        <input type="number" id="s_phone" placeholder="WhatsApp Number">
+        <input type="text" id="s_uid" placeholder="UID & Level">
+        <textarea id="s_desc" placeholder="Highlights..."></textarea>
+        <label for="s_images" class="file-label">Choose ID Images</label>
+        <input type="file" id="s_images" multiple onchange="updateFileCount()">
+        <p id="file-status" style="text-align:center; font-size:0.8rem; margin:10px;">No images selected</p>
+        <input type="number" id="s_price" placeholder="Price (₹)">
+        <button class="btn-sell" onclick="submitSell()">Submit Request</button>
     </div>
+</div>
 
-    <div id="sell" class="page">
-        <h2 style="margin-bottom: 20px; color: var(--secondary); text-align: center;">Sell Your Account</h2>
-        <div class="premium-form">
-            <input type="text" id="s_name" placeholder="Full Name">
-            <input type="number" id="s_phone" placeholder="WhatsApp Number">
-            <input type="text" id="s_uid" placeholder="Account UID & Level">
-            <textarea id="s_desc" rows="3" placeholder="Highlights..."></textarea>
-            
-            <label for="s_images" class="file-label"><i class="fas fa-image"></i> Choose ID Images</label>
-            <input type="file" id="s_images" multiple onchange="updateFileCount()">
-            <p id="file-status" style="text-align: center; font-size: 0.8rem; margin: 10px 0; color: #94a3b8;">No images selected</p>
-            
-            <input type="number" id="s_price" placeholder="Price (₹)">
-            <button class="btn-sell" onclick="submitSell()">Submit Request</button>
-        </div>
-    </div>
-        <div id="profile-page" class="page">
+<div id="profile-page" class="page">
     <div class="profile-container" style="text-align: center; background: var(--glass); padding: 30px; border-radius: 25px; border: 1px solid var(--primary); max-width: 400px; margin: 0 auto;">
-        
         <div class="profile-wrapper" style="position: relative; width: 100px; height: 100px; margin: 0 auto 15px;">
             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" id="profile-pic-main" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover;">
         </div>
-
         <h2 id="p-name" style="font-family: 'Orbitron'; color: var(--primary);">Soldier</h2>
         <p id="p-phone" style="color: #94a3b8; margin-bottom: 20px;">+91 0000000000</p>
-        
         <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
             <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary);">0</div>
-                <small style="color: #94a3b8;">Deals</small>
+                <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary);">0</div><small>Deals</small>
             </div>
             <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">0</div>
-                <small style="color: #94a3b8;">Level</small>
+                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">0</div><small>Level</small>
             </div>
             <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                <div id="p-rank" style="font-size: 1.1rem; font-weight: bold; color: var(--accent);">Bronze</div>
-                <small style="color: #94a3b8;">Rank</small>
+                <div id="p-rank" style="font-size: 1rem; font-weight: bold; color: var(--accent);">Bronze</div><small>Rank</small>
             </div>
         </div>
-        
         <button class="btn-sell" style="background: var(--accent); color: white;" onclick="logout()">LOGOUT</button>
     </div>
 </div>
 
-
-            <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
-                <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                    <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary);">0</div>
-                    <small style="color: #94a3b8;">Deals</small>
-                </div>
-                <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                    <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">0</div>
-                    <small style="color: #94a3b8;">Level</small>
-                </div>
-                <div class="stat-item" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
-                    <div style="font-size: 1.1rem; font-weight: bold; color: var(--accent);">Bronze</div>
-                    <small style="color: #94a3b8;">Rank</small>
-                </div>
-            </div>
-            
-            <button class="btn-sell" style="background: var(--accent); color: white;" onclick="logout()">LOGOUT</button>
-        </div>
-    </div>
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="showPage('home', this)"><i class="fas fa-home"></i>Home</div>
+    <div id="nav-buy" class="nav-item" onclick="showPage('buy', this)"><i class="fas fa-shopping-bag"></i>Store</div>
+    <div id="nav-sell" class="nav-item" onclick="showPage('sell', this)"><i class="fas fa-plus-circle"></i>Sell</div>
+    <div class="nav-item" onclick="showPage('profile-page', this)"><i class="fas fa-user-circle"></i>Profile</div>
+    <a href="https://wa.me/917845229384" class="nav-item" style="color: #25d366;"><i class="fab fa-whatsapp"></i>Contact</a>
+</div>
 
 
-        <div class="bottom-nav">
-        <div class="nav-item active" onclick="showPage('home', this)"><i class="fas fa-home"></i>Home</div>
-        <div id="nav-buy" class="nav-item" onclick="showPage('buy', this)"><i class="fas fa-shopping-bag"></i>Store</div>
-        <div id="nav-sell" class="nav-item" onclick="showPage('sell', this)"><i class="fas fa-plus-circle"></i>Sell</div>
-        <div class="nav-item" onclick="showPage('profile-page', this)"><i class="fas fa-user-circle"></i>Profile</div>
-        <a href="https://wa.me/917845229384" class="nav-item" style="color: #25d366;"><i class="fab fa-whatsapp"></i>Contact</a>
-    </div>
+
 
 <script>
     // --- 1. CONFIGURATION & DATA ---

@@ -339,8 +339,15 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
 
 <div id="buy" class="page">
     <div id="id-list">
-    <div class="id-card" data-category="evo">
+  
+    <div class="id-card" data-category="old">
         <div class="slider-wrapper">
+            <div style="position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0, 0, 0, 0.6); padding: 5px 12px; border-radius: 8px; border: 1px solid var(--primary); backdrop-filter: blur(5px);">
+                <span style="font-size: 0.85rem; font-weight: bold; color: var(--primary);">
+                    <i class="fas fa-user"></i> FF ID: †மரணஇ06380
+                </span>
+            </div>
+
             <div class="id-image-container" onscroll="updateDots(this)">
                 <img src="img1.jpg" alt="1">
                 <img src="img2.jpg" alt="2">
@@ -368,14 +375,24 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
             <div class="dot"></div>
         </div>
 
-        <h3>AK Blue Flame Draco Max (Full Max)</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <h3 style="font-size: 1.1rem;">MC funk bundle</h3>
+            <span style="color: var(--secondary); font-size: 0.8rem; font-weight: bold;">Verified ✅</span>
+        </div>
+        
+        <div style="margin: 5px 0; color: #94a3b8; font-size: 0.85rem; display: flex; gap: 15px;">
+            <span><i class="fas fa-id-card" style="color: var(--primary);"></i> UID: 2288608789</span>
+            <span><i class="fas fa-star" style="color: #ffcc00;"></i> Level: 50</span>
+        </div>
         
         <div class="price-row">
-            <span class="price">₹ 800</span>
-            <button class="btn-action" onclick="buyID('AK Draco 10 Images', '₹ 800')">Buy Now</button>
+            <span class="price">₹ 180</span>
+            <button class="btn-action" onclick="buyID('MC funk bundle (10 Images)', '₹ 180')">Buy Now</button>
         </div>
     </div>
 </div>
+
+    
 
 <div id="sell" class="page">
     <h2 style="text-align: center; color: var(--secondary); margin-bottom: 20px;">Sell Your Account</h2>

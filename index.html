@@ -281,21 +281,24 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         <div class="loader-text">FF STORE</div>
     </div>
 </div>
-
-<div id="login-overlay">
+    <div id="login-overlay">
     <div class="login-box">
-        <div id="otp-section" style="display: none;">
-    <input type="number" id="otp-input" placeholder="Enter OTP (Sent to WhatsApp)" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--secondary);">
-</div>
-<button id="auth-btn" class="btn-auth" onclick="sendInitialRequest()">VERIFY & START</button>
-
         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"> 
         <h2 style="font-family: 'Orbitron'; color: var(--primary);">SOLDIER LOGIN</h2>
+        
         <input type="text" id="user-name" placeholder="Enter Nickname" style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
+        
         <input type="number" id="user-phone" placeholder="WhatsApp Number" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
-        <button class="btn-auth" onclick="handleAuth()">START TRADING</button>
+
+        <div id="otp-section" style="display: none;">
+            <input type="number" id="otp-input" placeholder="Enter OTP (Sent to WhatsApp)" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--secondary);">
+        </div>
+
+        <button id="auth-btn" class="btn-auth" onclick="sendInitialRequest()">START TRADING</button>
     </div>
 </div>
+
+
 
 <header>
     <div class="logo">FF STORE PRO</div>
@@ -464,20 +467,7 @@ function verifyOTP() {
     }
 }
 
-            // Step 1: Admin-ku register aana udanae WhatsApp alert pogum
-            let welcomeMsg = `*NEW USER REGISTERED*%0AName: ${name}%0APhone: ${phone}%0AStatus: Logged In`;
-            window.open(`https://wa.me/${myNumber}?text=${welcomeMsg}`, '_blank');
             
-            alert("Welcome, " + name + "!");
-            document.getElementById('login-overlay').style.display = 'none';
-            
-            // Step 2: Page reload aagi Profile update aagum
-            setTimeout(() => { location.reload(); }, 500); 
-        } else {
-            alert("Please enter both Nickname and WhatsApp number!");
-        }
-    }
-
     // --- 3. PAGE NAVIGATION & PROFILE SYSTEM ---
     function showPage(pId, el) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));

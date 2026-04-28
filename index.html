@@ -226,6 +226,26 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
 #profile-page.active-page {
     display: block; /* active aagum pothu mattum theriyum */
 }
+/* Rank Colors & Glows */
+.rank-bronze { color: #cd7f32 !important; text-shadow: 0 0 5px rgba(205, 127, 50, 0.5); }
+.rank-gold { color: #ffd700 !important; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); font-weight: bold; }
+.rank-elite { color: #00ff88 !important; text-shadow: 0 0 15px rgba(0, 255, 136, 1); font-weight: 800; letter-spacing: 1px; }
+.rank-master { 
+    color: #ff007a !important; 
+    text-shadow: 0 0 20px rgba(255, 0, 122, 1); 
+    font-weight: 900; 
+    text-transform: uppercase;
+    animation: masterGlow 1.5s infinite alternate;
+}
+
+@keyframes masterGlow {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(1.05); opacity: 1; }
+}
+
+.profile-img-master { border: 4px solid #ff007a !important; box-shadow: 0 0 20px #ff007a; }
+.profile-img-elite { border: 3px solid #00ff88 !important; box-shadow: 0 0 15px #00ff88; }
+
 
 
 
@@ -433,13 +453,11 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     // --- 1. CONFIGURATION & DATA ---
     const myNumber = "917845229384"; // Admin WhatsApp Number
     
-    // User database - Neenga manual-ah inga dhaan Elite rank update pannanum
     const registeredUsers = [
-        { phone: "917845229384", name: "Admin", rank: "Owner", deals: "99", level: "75" },
-        { phone: "9876543210", name: "Santhosh", rank: "Elite", deals: "15", level: "68" },
-        { phone: "1234567890", name: "Arun", rank: "Gold", deals: "5", level: "62" }
-        // Puthu Elite users-ai keela add pannikonga:
-    ];
+    { phone: "916379677248", name: "Thivash", rank: "Elite Master", deals: "2", level: "12" },
+    { phone: "9876543210", name: "Santhosh", rank: "Elite", deals: "15", level: "68" },
+    { phone: "1234567890", name: "Arun", rank: "Gold", deals: "5", level: "62" }
+];
 
     // --- 2. LOADING & AUTH LOGIC ---
     window.addEventListener('load', () => {
@@ -496,33 +514,51 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     }
 
     function updateProfileUI() {
-        const uPhone = localStorage.getItem('ff_userphone') || "";
-        const uName = localStorage.getItem('ff_username') || "Soldier";
-        
-        // Find if user is in our "Elite/Special" list
-        const userData = registeredUsers.find(u => u.phone === uPhone);
+    const uPhone = localStorage.getItem('ff_userphone') || "";
+    const uName = localStorage.getItem('ff_username') || "Soldier";
+    
+    const userData = registeredUsers.find(u => u.phone === uPhone);
 
-        const pName = document.getElementById('p-name');
-        const pPhone = document.getElementById('p-phone');
-        const stats = document.querySelectorAll('.stat-item div');
+    const pName = document.getElementById('p-name');
+    const pPhone = document.getElementById('p-phone');
+    const stats = document.querySelectorAll('.stat-item div');
+    const pImg = document.querySelector('.profile-container img');
+    const rankEl = stats[2];
 
-        if(userData) {
-            pName.innerText = userData.name;
-            pPhone.innerText = "+91 " + userData.phone;
-            stats[0].innerText = userData.deals; 
-            stats[1].innerText = userData.level; 
-            stats[2].innerText = userData.rank;  
-            // Elite rank-ku special color
-            stats[2].style.color = (userData.rank === "Elite") ? "var(--secondary)" : "var(--accent)";
-        } else {
-            pName.innerText = uName;
-            pPhone.innerText = "+91 " + uPhone;
-            stats[0].innerText = "0";
-            stats[1].innerText = "0";
-            stats[2].innerText = "Bronze";
-            stats[2].style.color = "var(--accent)";
+    rankEl.className = ""; 
+    pImg.className = "";
+
+    if(userData) {
+        pName.innerText = userData.name;
+        pPhone.innerText = "+91 " + userData.phone;
+        stats[0].innerText = userData.deals; 
+        stats[1].innerText = userData.level; 
+        rankEl.innerText = userData.rank;
+
+        if(userData.rank === "Elite Master") {
+            rankEl.classList.add('rank-master');
+            pImg.classList.add('profile-img-master');
+            pName.innerHTML = userData.name + ' <i class="fas fa-crown" style="color:#ff007a"></i>';
+        } 
+        else if(userData.rank === "Elite") {
+            rankEl.classList.add('rank-elite');
+            pImg.classList.add('profile-img-elite');
+            pName.innerHTML = userData.name + ' <i class="fas fa-check-circle" style="color:#00ff88"></i>';
         }
+        else if(userData.rank === "Gold") {
+            rankEl.classList.add('rank-gold');
+            pName.innerHTML = userData.name + ' <i class="fas fa-star" style="color:#ffd700"></i>';
+        }
+    } else {
+        pName.innerText = uName;
+        pPhone.innerText = "+91 " + uPhone;
+        stats[0].innerText = "0";
+        stats[1].innerText = "0";
+        rankEl.innerText = "Bronze";
+        rankEl.classList.add('rank-bronze');
     }
+}
+
 
     function logout() {
         if(confirm("Logout seiya nichayamaga virumbugireergal?")) {

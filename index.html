@@ -445,11 +445,10 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     <div class="nav-item active" onclick="showPage('home', this)"><i class="fas fa-home"></i>Home</div>
     <div id="nav-buy" class="nav-item" onclick="showPage('buy', this)"><i class="fas fa-shopping-bag"></i>Store</div>
     <div id="nav-sell" class="nav-item" onclick="showPage('sell', this)"><i class="fas fa-plus-circle"></i>Sell</div>
-
-<div id="nav-sell" class="nav-item" onclick="showPage('sell', this)"><i class="fas fa-plus-circle"></i>Sell</div>
-
+    <div id="nav-profile" class="nav-item" onclick="showPage('profile-page', this)"><i class="fas fa-user-circle"></i>Profile</div>
     <a href="https://wa.me/917845229384" class="nav-item" style="color: #25d366;"><i class="fab fa-whatsapp"></i>Contact</a>
 </div>
+
 
 
 
@@ -531,17 +530,17 @@ function verifyOTP() {
     // 1. Ella page-aiyum hide pannu
     document.querySelectorAll('.page').forEach(p => {
         p.classList.remove('active-page');
-        p.style.display = 'none'; // Extra safety
+        p.style.display = 'none'; 
     });
     
     // 2. Click panna page-ai kaatu
     const targetPage = document.getElementById(pId);
     if (targetPage) {
         targetPage.classList.add('active-page');
-        targetPage.style.display = 'block'; // Direct display block
+        targetPage.style.display = 'block'; // Direct-ah block kudunga
     }
     
-    // 3. Search area logic - Sell page-la kandippa hide aaganum
+    // 3. Search area logic
     const searchArea = document.getElementById('search-area');
     if (pId === 'buy') {
         searchArea.style.display = 'block';
@@ -549,7 +548,7 @@ function verifyOTP() {
         searchArea.style.display = 'none';
     }
 
-    // 4. Profile update
+    // 4. Profile update logic
     if(pId === 'profile-page') {
         updateProfileUI();
     }

@@ -518,10 +518,24 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     const myNumber = "917845229384"; 
     
     const registeredUsers = [
-        { phone: "6379677248", name: "Thivash", rank: "Elite", deals: "2", level: "12" },
-        { phone: "9876543210", name: "Santhosh", rank: "Elite", deals: "15", level: "68" },
-        { phone: "1234567890", name: "Arun", rank: "Gold", deals: "5", level: "62" }
-    ];
+    { 
+        phone: "6379677248", 
+        name: "Thivash", 
+        rank: "Elite", 
+        deals: "2", 
+        level: "12",
+        pic: "https://i.postimg.cc/02SkX3X1/id1.jpg" // இங்க அந்த போட்டோ லிங்க் போடணும்
+    },
+    { 
+        phone: "9876543210", 
+        name: "Santhosh", 
+        rank: "Elite", 
+        deals: "15", 
+        level: "68",
+        pic: "https://i.postimg.cc/abc/santhosh.jpg" // இங்க சந்தோஷ் போட்டோ லிங்க்
+    }
+];
+
 
 
         // --- 2. LOADING & AUTH LOGIC ---
@@ -635,16 +649,11 @@ window.addEventListener('load', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function updateProfileUI() {
-  
-    // சேவ் பண்ண போட்டோவை செக் பண்ண
-    const savedPic = localStorage.getItem('user_custom_pic');
-    if(savedPic) {
-        document.getElementById('profile-pic-main').src = savedPic;
-    }
     
-    // ... உங்க பழைய மத்த கோட் எல்லாம் இங்க இருக்கும்
 
+    
+    function updateProfileUI() {
+    const savedPic = localStorage.getItem('user_custom_pic');
     const uPhone = String(localStorage.getItem('ff_userphone') || "").trim();
     const uName = localStorage.getItem('ff_username') || "Soldier";
     const userData = registeredUsers.find(u => String(u.phone).trim() === uPhone);
@@ -658,12 +667,20 @@ window.addEventListener('load', () => {
 
     if (!pName || !pPhone) return;
 
-    // Reset Classes & Old Crown (Ithu romba mukkiyam)
+    // போட்டோ செட்டிங்
+    if(savedPic) {
+        pImg.src = savedPic;
+    } else if(userData && userData.pic) {
+        pImg.src = userData.pic;
+    } else {
+        pImg.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${uName}`;
+    }
+
+    // பழைய எஃபெக்ட்ஸ் கிளீன் பண்றது
     pImg.className = ""; 
     const oldCrown = document.querySelector('.crown-overlay');
     if (oldCrown) oldCrown.remove();
 
-    // Basic Data
     pName.innerText = userData ? userData.name : uName;
     pPhone.innerText = "+91 " + uPhone;
 
@@ -672,7 +689,7 @@ window.addEventListener('load', () => {
         pCoins.innerText = userData.level;
         pRank.innerText = userData.rank;
 
-        // Rank Effects & Crown Adding
+        // ரேங்க் எஃபெக்ட்ஸ் ஆட் பண்றது
         if(userData.rank === "Elite Master") {
             pImg.classList.add('profile-img-master');
             profileWrapper.insertAdjacentHTML('afterbegin', '<i class="fas fa-crown crown-overlay" style="color:#ff007a"></i>');
@@ -685,12 +702,13 @@ window.addEventListener('load', () => {
             pImg.classList.add('profile-img-gold');
         }
     } else {
-        // Default values for new users
         document.querySelectorAll('.stat-item div')[0].innerText = "0";
         pCoins.innerText = "0";
         pRank.innerText = "Bronze";
     }
 }
+
+
 
     
 
@@ -768,54 +786,43 @@ window.addEventListener('load', () => {
    
 
         // --- LEADERBOARD LOGIC (UPDATED) ---
-    function loadLeaderboard() {
-        const list = document.getElementById('top-users-list');
-        if(!list) return;
+    
+            function loadLeaderboard() {
+    const list = document.getElementById('top-users-list');
+    if(!list) return;
+    list.innerHTML = ""; 
 
-        list.innerHTML = ""; 
+    registeredUsers.forEach(user => {
+        let effect = "border: 2px solid rgba(255,255,255,0.1);";
+        let rankColor = "#94a3b8";
+        
+        // இங்கதான் மேஜிக் இருக்கு:
+        // 1. உங்க கோடுல போட்டோ லிங்க் (user.pic) இருந்தா அதை எடுக்கும்.
+        // 2. லிங்க் இல்லனா பழையபடி ஒரு பொம்மை போட்டோவை (Dicebear) காட்டும்.
+        let displayPic = user.pic ? user.pic : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`;
 
-        // லோக்கல் மெமரில சேமிச்ச போட்டோ மற்றும் லாகின் செஞ்ச போன் நம்பரை எடுக்குறோம்
-        const savedPic = localStorage.getItem('user_custom_pic');
-        const uPhone = String(localStorage.getItem('ff_userphone') || "").trim();
+        if(user.rank === "Elite Master") { 
+            effect = "border: 2.5px solid #ff007a; box-shadow: 0 0 10px rgba(255, 0, 122, 0.5);"; 
+            rankColor = "#ff007a";
+        } 
+        else if(user.rank === "Elite") { 
+            effect = "border: 2.5px solid #00ff88; box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);"; 
+            rankColor = "#00ff88";
+        }
 
-        registeredUsers.forEach(user => {
-            let effect = "border: 2px solid rgba(255,255,255,0.1);";
-            let rankColor = "#94a3b8";
-            
-            // டிபால்ட் போட்டோ (Dicebear)
-            let displayPic = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`;
+        list.innerHTML += `
+            <div style="text-align: center; min-width: 80px;">
+                <img src="${displayPic}" 
+                     style="width: 55px; height: 55px; border-radius: 50%; background: #1a1a1a; object-fit: cover; ${effect}">
+                <div style="font-size: 0.75rem; font-weight: bold; color: white; margin-top: 8px;">${user.name}</div>
+                <div style="font-size: 0.65rem; color: ${rankColor}; font-weight: bold;">${user.rank}</div>
+            </div>`;
+    });
+}
 
-            // செக் பண்றோம்: இந்த லிஸ்ட்ல இருக்குற நபர் தான் லாகின் செஞ்சவர் (Thivash) என்றால்...
-            // அவர் ப்ரொபைல்ல மாத்துன புது போட்டோவை இங்கே வைக்கிறோம்
-            if (String(user.phone).trim() === uPhone && savedPic) {
-                displayPic = savedPic;
-            }
 
-            if(user.rank === "Elite Master") { 
-                effect = "border: 2.5px solid #ff007a; box-shadow: 0 0 10px rgba(255, 0, 122, 0.5);"; 
-                rankColor = "#ff007a";
-            } 
-            else if(user.rank === "Elite") { 
-                effect = "border: 2.5px solid #00ff88; box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);"; 
-                rankColor = "#00ff88";
-            }
-            else if(user.rank === "Gold") { 
-                effect = "border: 2.5px solid #ffd700;"; 
-                rankColor = "#ffd700";
-            }
-
-            list.innerHTML += `
-                <div style="text-align: center; min-width: 80px;">
-                    <div style="position: relative; display: inline-block;">
-                        <img src="${displayPic}" 
-                             style="width: 55px; height: 55px; border-radius: 50%; background: #1a1a1a; object-fit: cover; ${effect}">
-                    </div>
-                    <div style="font-size: 0.75rem; font-weight: bold; color: white; margin-top: 8px;">${user.name}</div>
-                    <div style="font-size: 0.65rem; color: ${rankColor}; font-weight: bold;">${user.rank}</div>
-                </div>
-            `;
-        });
-    }
+           
+    
 
     function changeProfilePic(input) {
     if (input.files && input.files[0]) {
@@ -840,4 +847,4 @@ window.addEventListener('load', () => {
 
 
 </body>
-            </html>
+    </html>

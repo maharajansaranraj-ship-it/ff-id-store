@@ -313,12 +313,6 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
 }
 #full-view-container.show { display: flex; }
 #full-view-container.show #full-view-pic { transform: scale(1); }
-.game-card {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.game-card:active {
-    transform: scale(0.9);
-}
 
 
 
@@ -395,28 +389,6 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         <div class="trust-item"><i class="fas fa-user-check"></i><p>Verified<br>Sellers</p></div>
     </div>
 </div>
-<div id="game-page" class="page">
-    <div style="text-align: center; background: var(--glass); padding: 25px; border-radius: 25px; border: 1px solid var(--primary);">
-        <h2 style="font-family: 'Orbitron'; color: var(--primary);"><i class="fas fa-coins"></i> LUCK FLIP</h2>
-        <p style="color: #94a3b8; font-size: 0.8rem; margin-bottom: 20px;">Choose a card to double your coins!</p>
-        
-        <div id="game-stats" style="margin-bottom: 15px; font-weight: bold; color: var(--secondary);">
-            Your Balance: <span id="game-balance">0</span> <i class="fas fa-coins"></i>
-        </div>
-
-        <div style="margin-bottom: 20px;">
-            <input type="number" id="bet-input" placeholder="Enter Bet Amount" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--primary); color: white; text-align: center;">
-        </div>
-
-        <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px;">
-            <div class="game-card" onclick="playFlip(1)" style="width: 100px; height: 140px; background: linear-gradient(45deg, #00d2ff, #00ff88); border-radius: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 2rem;">?</div>
-            <div class="game-card" onclick="playFlip(2)" style="width: 100px; height: 140px; background: linear-gradient(45deg, #00d2ff, #00ff88); border-radius: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 2rem;">?</div>
-        </div>
-
-        <div id="game-result" style="font-weight: bold; min-height: 20px;"></div>
-    </div>
-</div>
-
 
 <div id="buy" class="page">
     <div id="id-list">
@@ -531,8 +503,6 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
 
 
 <div class="bottom-nav">
-<div id="nav-game" class="nav-item" onclick="showPage('game-page', this)"><i class="fas fa-gamepad"></i>Game</div>
-
     <div class="nav-item active" onclick="showPage('home', this)"><i class="fas fa-home"></i>Home</div>
     <div id="nav-buy" class="nav-item" onclick="showPage('buy', this)"><i class="fas fa-shopping-bag"></i>Store</div>
     <div id="nav-sell" class="nav-item" onclick="showPage('sell', this)"><i class="fas fa-plus-circle"></i>Sell</div>
@@ -634,38 +604,34 @@ window.addEventListener('load', () => {
     }
 
     // --- 3. THE FIXED NAVIGATION FUNCTION ---
-    
-        function showPage(pId, el) {
-    // எல்லா பேஜையும் ஹைட் பண்ணு
-    document.querySelectorAll('.page').forEach(p => {
-        p.classList.remove('active-page');
-    });
-    
-    // டார்கெட் பேஜை மட்டும் காட்டு
-    const targetPage = document.getElementById(pId);
-    if (targetPage) {
-        targetPage.classList.add('active-page');
-    }
-    
-    // சர்ச் ஏரியா கண்ட்ரோல்
-    document.getElementById('search-area').style.display = (pId === 'buy') ? 'block' : 'none';
+    function showPage(pId, el) {
+        // Ella pages-aiyum hide pannu
+        document.querySelectorAll('.page').forEach(p => {
+            p.classList.remove('active-page');
+        });
+        
+        // Target page-ai show pannu
+        const targetPage = document.getElementById(pId);
+        if (targetPage) {
+            targetPage.classList.add('active-page');
+        }
+        
+        // Search area control
+        document.getElementById('search-area').style.display = (pId === 'buy') ? 'block' : 'none';
 
-    // நேவ் பார் ஹைலைட்
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if (el) { el.classList.add('active'); }
+        // Nav bar highlights
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        if (el) {
+            el.classList.add('active');
+        }
 
-    // முக்கியமானது: கேம் பேஜ் வந்தா காயின்ஸ் அப்டேட் பண்ணு
-    if (pId === 'game-page') {
-        updateGameBalanceDisplay();
-    }
-    
-    // ப்ரொபைல் பேஜ் வந்தா ப்ரொபைல் டேட்டாவை அப்டேட் பண்ணு
-    if (pId === 'profile-page') {
-        updateProfileUI();
-    }
+        // Profile-ku switch aagum pothu data-vai refresh pannu
+        if (pId === 'profile-page') {
+            updateProfileUI();
+        }
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     
 
@@ -858,98 +824,20 @@ window.addEventListener('load', () => {
 // GitHub-ல இருந்து டேட்டாவை ஆன்லைன்ல இழுக்குற வேலை
 async function fetchUsers() {
     try {
-        // இங்க "உன்னோட_Raw_லிங்க்" இடத்துல GitHub Raw லிங்க்கை போடணும்
-        const response = await fetch('இங்க_உன்_லிங்க்கை_ஒட்டு'); 
+        // இங்க லிங்க்கை பேஸ்ட் பண்ணியாச்சு
+        const response = await fetch('https://raw.githubusercontent.com/maharajansaranraj-ship-it/ff-id-store/refs/heads/main/users.json'); 
         registeredUsers = await response.json();
         
-        // டேட்டா வந்ததும் ஆப்ல இருக்குற எல்லாத்தையும் புதுப்பிக்கும்
         loadLeaderboard();
         updateProfileUI();
-    } catch (e) { console.log("Data Load Agala!"); }
+    } catch (e) { 
+        console.log("Data Load Agala! Error: ", e); 
+    }
 }
 
 // ஆப் ஓபன் ஆகும்போதே இந்த வேலைய ஆரம்பிக்கும்
 window.addEventListener('load', fetchUsers);
-// Game Balance Update
-function updateGameBalanceDisplay() {
-    const coins = localStorage.getItem('user_coins') || 0;
-    const balanceElement = document.getElementById('game-balance');
-    if(balanceElement) balanceElement.innerText = coins;
-    
-    const profileCoins = document.getElementById('p-coins');
-    if(profileCoins) profileCoins.innerText = coins;
-}
 
-function updateGameBalanceDisplay() {
-    // உன்கிட்ட காயின்ஸ் இல்லனா 0-ன்னு செட் பண்ணும்
-    let coins = localStorage.getItem('user_coins');
-    if (coins === null) {
-        localStorage.setItem('user_coins', 50); // புது யூசருக்கு 50 காயின்ஸ் கிப்ட்!
-        coins = 50;
-    }
-    
-    const balanceElement = document.getElementById('game-balance');
-    if(balanceElement) balanceElement.innerText = coins;
-    
-    const profileCoins = document.getElementById('p-coins');
-    if(profileCoins) profileCoins.innerText = coins;
-}
-
-function playFlip(choice) {
-    let betInput = document.getElementById('bet-input');
-    let bet = parseInt(betInput.value);
-    let currentCoins = parseInt(localStorage.getItem('user_coins')) || 0;
-
-    if (isNaN(bet) || bet <= 0) {
-        alert("Bet amount-ஐ என்டர் பண்ணுங்க!");
-        return;
-    }
-    if (bet > currentCoins) {
-        alert("உங்ககிட்ட போதுமான காயின்கள் இல்லை!");
-        return;
-    }
-
-    // பட்டனை லாக் பண்ணு
-    document.querySelectorAll('.game-card').forEach(c => {
-        c.style.pointerEvents = 'none';
-        c.style.background = 'linear-gradient(45deg, #1e293b, #0f172a)';
-        c.innerText = "⏳";
-    });
-    
-    document.getElementById('game-result').innerText = "குலுக்கல் நடக்கிறது...";
-
-    setTimeout(() => {
-        let winningCard = Math.floor(Math.random() * 2) + 1;
-        let resultDiv = document.getElementById('game-result');
-        let cards = document.querySelectorAll('.game-card');
-        
-        // கார்டு கலரை மாத்து
-        cards[winningCard-1].style.background = 'linear-gradient(45deg, #00ff88, #00d2ff)';
-        cards[winningCard-1].innerText = "💎";
-
-        if (choice === winningCard) {
-            currentCoins += bet; // ஜெயிச்சா பெட் கட்டுன காயின் ஆட் ஆகும்
-            resultDiv.innerHTML = `<span style="color: var(--secondary); font-size:1.2rem;">WIN! 🎉 +${bet} Coins</span>`;
-        } else {
-            currentCoins -= bet; // தோத்தா காயின் குறையும்
-            resultDiv.innerHTML = `<span style="color: var(--accent); font-size:1.2rem;">LOST! ❌ -${bet} Coins</span>`;
-        }
-
-        localStorage.setItem('user_coins', currentCoins);
-        updateGameBalanceDisplay();
-        
-        // திரும்ப விளையாட பழைய நிலைக்கு கொண்டு வா
-        setTimeout(() => {
-            cards.forEach(c => {
-                c.style.pointerEvents = 'auto';
-                c.style.background = 'linear-gradient(45deg, #00d2ff, #00ff88)';
-                c.innerText = "?";
-            });
-            betInput.value = "";
-        }, 2000);
-        
-    }, 1200);
-}
 
 
 </script>
@@ -960,4 +848,4 @@ function playFlip(choice) {
 
 
 </body>
-    </html>
+            </html>

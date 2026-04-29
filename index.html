@@ -291,6 +291,29 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     visibility: hidden;
     pointer-events: none; /* Loader hidden aana pinnala background content-ai click panna mudiyum */
 }
+/* Full View Overlay */
+#full-view-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 15000;
+    backdrop-filter: blur(10px);
+}
+#full-view-pic {
+    width: 280px;
+    height: 280px;
+    border-radius: 20px;
+    border: 3px solid var(--primary);
+    object-fit: cover;
+    transform: scale(0.8);
+    transition: transform 0.2s ease-out;
+}
+#full-view-container.show { display: flex; }
+#full-view-container.show #full-view-pic { transform: scale(1); }
+
 
 
 
@@ -443,8 +466,14 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
 <div id="profile-page" class="page">
     <div class="profile-container" style="text-align: center; background: var(--glass); padding: 30px; border-radius: 25px; border: 1px solid var(--primary); max-width: 400px; margin: 0 auto;">
         <div class="profile-wrapper" style="position: relative; width: 100px; height: 100px; margin: 0 auto 15px;">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" id="profile-pic-main" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover;">
-        </div>
+    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" id="profile-pic-main" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover;">
+    
+    <label for="upload-profile" style="position: absolute; bottom: 0; right: 0; background: var(--primary); width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 2px solid #05070a; z-index: 20;">
+        <i class="fas fa-camera" style="color: black; font-size: 0.8rem;"></i>
+    </label>
+    <input type="file" id="upload-profile" style="display: none;" accept="image/*" onchange="changeProfilePic(this)">
+</div>
+
         <h2 id="p-name" style="font-family: 'Orbitron'; color: var(--primary);">Soldier</h2>
         <p id="p-phone" style="color: #94a3b8; margin-bottom: 20px;">+91 0000000000</p>
         
@@ -480,27 +509,61 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     <div id="nav-profile" class="nav-item" onclick="showPage('profile-page', this)"><i class="fas fa-user-circle"></i>Profile</div>
     <a href="https://wa.me/917845229384" class="nav-item" style="color: #25d366;"><i class="fab fa-whatsapp"></i>Contact</a>
 </div>
+<div id="full-view-container">
+    <img src="" id="full-view-pic">
+</div>
+
 <script>
     // --- 1. CONFIGURATION & DATA ---
     const myNumber = "917845229384"; 
     
     const registeredUsers = [
-        { phone: "6379677248", name: "Thivash", rank: "Elite Master", deals: "2", level: "12" },
+        { phone: "6379677248", name: "Thivash", rank: "Elite", deals: "2", level: "12" },
         { phone: "9876543210", name: "Santhosh", rank: "Elite", deals: "15", level: "68" },
         { phone: "1234567890", name: "Arun", rank: "Gold", deals: "5", level: "62" }
     ];
 
 
         // --- 2. LOADING & AUTH LOGIC ---
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const loader = document.getElementById('preloader');
-            if (loader) loader.classList.add('fade-out');
-            checkAuth();
-            updateProfileUI(); // ப்ரொபைல் அப்டேட் பண்ண
-            loadLeaderboard(); // இதோ இங்கதான் லீடர்போர்டு லோடு பண்ற வரியைச் சேர்க்கணும்!
-        }, 2000);
-    });
+    
+
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const loader = document.getElementById('preloader');
+        if (loader) loader.classList.add('fade-out');
+        checkAuth();
+        updateProfileUI(); 
+        loadLeaderboard(); 
+        
+        // --- Updated Long Press Logic ---
+        const overlay = document.getElementById('full-view-container');
+        const fullImg = document.getElementById('full-view-pic');
+        let pressTimer;
+
+        document.addEventListener('mousedown', handleStart);
+        document.addEventListener('touchstart', handleStart);
+        document.addEventListener('mouseup', handleEnd);
+        document.addEventListener('touchend', handleEnd);
+
+        function handleStart(e) {
+            // செக் பண்றோம்: அது ஒரு இமேஜா? லோகோ/நேவ் பார் இல்லாம இருக்கணும்
+            if (e.target.tagName === 'IMG' && !e.target.closest('header') && !e.target.closest('.bottom-nav')) {
+                pressTimer = setTimeout(() => {
+                    fullImg.src = e.target.src;
+                    overlay.classList.add('show');
+                }, 500);
+            }
+        }
+
+        function handleEnd() {
+            clearTimeout(pressTimer);
+            overlay.classList.remove('show');
+        }
+    }, 2000);
+}); // <--- இங்க க்ளோசிங் பிராக்கெட் கரெக்டா இருக்கணும்
+
+
+
 
 
     function checkAuth() {
@@ -573,6 +636,15 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     }
 
     function updateProfileUI() {
+  
+    // சேவ் பண்ண போட்டோவை செக் பண்ண
+    const savedPic = localStorage.getItem('user_custom_pic');
+    if(savedPic) {
+        document.getElementById('profile-pic-main').src = savedPic;
+    }
+    
+    // ... உங்க பழைய மத்த கோட் எல்லாம் இங்க இருக்கும்
+
     const uPhone = String(localStorage.getItem('ff_userphone') || "").trim();
     const uName = localStorage.getItem('ff_username') || "Soldier";
     const userData = registeredUsers.find(u => String(u.phone).trim() === uPhone);
@@ -730,6 +802,20 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
             `;
         });
     }
+    function changeProfilePic(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imageData = e.target.result;
+            // போட்டோவை உடனே மாற்ற
+            document.getElementById('profile-pic-main').src = imageData;
+            // போன் மெமரில சேமிக்க
+            localStorage.setItem('user_custom_pic', imageData);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 
 </script>
 

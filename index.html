@@ -517,24 +517,8 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     // --- 1. CONFIGURATION & DATA ---
     const myNumber = "917845229384"; 
     
-    const registeredUsers = [
-    { 
-        phone: "6379677248", 
-        name: "Thivash", 
-        rank: "Elite", 
-        deals: "2", 
-        level: "12",
-        pic: "https://i.postimg.cc/02SkX3X1/id1.jpg" // இங்க அந்த போட்டோ லிங்க் போடணும்
-    },
-    { 
-        phone: "9876543210", 
-        name: "Santhosh", 
-        rank: "Elite", 
-        deals: "15", 
-        level: "68",
-        pic: "https://i.postimg.cc/abc/santhosh.jpg" // இங்க சந்தோஷ் போட்டோ லிங்க்
-    }
-];
+    let registeredUsers = []; 
+
 
 
 
@@ -837,6 +821,22 @@ window.addEventListener('load', () => {
         reader.readAsDataURL(input.files[0]);
     }
 }
+// GitHub-ல இருந்து டேட்டாவை ஆன்லைன்ல இழுக்குற வேலை
+async function fetchUsers() {
+    try {
+        // இங்க "உன்னோட_Raw_லிங்க்" இடத்துல GitHub Raw லிங்க்கை போடணும்
+        const response = await fetch('இங்க_உன்_லிங்க்கை_ஒட்டு'); 
+        registeredUsers = await response.json();
+        
+        // டேட்டா வந்ததும் ஆப்ல இருக்குற எல்லாத்தையும் புதுப்பிக்கும்
+        loadLeaderboard();
+        updateProfileUI();
+    } catch (e) { console.log("Data Load Agala!"); }
+}
+
+// ஆப் ஓபன் ஆகும்போதே இந்த வேலைய ஆரம்பிக்கும்
+window.addEventListener('load', fetchUsers);
+
 
 
 </script>
@@ -847,4 +847,4 @@ window.addEventListener('load', () => {
 
 
 </body>
-    </html>
+            </html>

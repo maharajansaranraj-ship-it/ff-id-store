@@ -548,28 +548,50 @@ function verifyOTP() {
 
             
     // --- 3. PAGE NAVIGATION & PROFILE SYSTEM ---
-   function showPage(pId, el) {
-    // 1. Ella page-laiyum active class-ai remove pannu
-    document.querySelectorAll('.page').forEach(p => {
+   // Intha Script-ai mattum replace pannunga bro
+function showPage(pId, el) {
+    // 1. Ella pages-aiyum select pannu
+    const allPages = document.querySelectorAll('.page');
+    
+    // 2. Loop panni ellathaiyum hide pannu
+    allPages.forEach(p => {
         p.classList.remove('active-page');
     });
     
-    // 2. Select panna page-ku mattum active class-ai podu
-    const target = document.getElementById(pId);
-    if (target) {
-        target.classList.add('active-page');
+    // 3. Current page-ai show pannu
+    const targetPage = document.getElementById(pId);
+    if (targetPage) {
+        targetPage.classList.add('active-page');
+        console.log("Page switched to: " + pId); // Debugging-ku
+    } else {
+        console.error("Page ID not found: " + pId);
     }
     
-    // 3. Search area logic
-    document.getElementById('search-area').style.display = (pId === 'buy') ? 'block' : 'none';
-
-    // 4. Nav bar highlight
-    if(el) {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        el.classList.add('active');
+    // 4. Search area logic
+    const searchArea = document.getElementById('search-area');
+    if (searchArea) {
+        searchArea.style.display = (pId === 'buy') ? 'block' : 'none';
     }
+
+    // 5. Nav highlight
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (el) {
+        el.classList.add('active');
+    } else {
+        // Nav bar-la irunthu click pannala-na manual-ah highlight pannu
+        const navId = 'nav-' + (pId === 'profile-page' ? 'profile' : pId);
+        const navEl = document.getElementById(navId);
+        if (navEl) navEl.classList.add('active');
+    }
+
+    // 6. Profile update
+    if (pId === 'profile-page') {
+        updateProfileUI();
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
  
     
 

@@ -765,17 +765,31 @@ window.addEventListener('load', () => {
         let msg = `*SELL REQUEST*%0AName: ${n}%0APrice: ₹${pr}`;
         window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
     }
-        // --- LEADERBOARD LOGIC ---
+   
+
+        // --- LEADERBOARD LOGIC (UPDATED) ---
     function loadLeaderboard() {
         const list = document.getElementById('top-users-list');
         if(!list) return;
 
-        // இதோ இந்த வரி தான் ரெண்டு வாட்டி வராம தடுக்கும்
         list.innerHTML = ""; 
+
+        // லோக்கல் மெமரில சேமிச்ச போட்டோ மற்றும் லாகின் செஞ்ச போன் நம்பரை எடுக்குறோம்
+        const savedPic = localStorage.getItem('user_custom_pic');
+        const uPhone = String(localStorage.getItem('ff_userphone') || "").trim();
 
         registeredUsers.forEach(user => {
             let effect = "border: 2px solid rgba(255,255,255,0.1);";
             let rankColor = "#94a3b8";
+            
+            // டிபால்ட் போட்டோ (Dicebear)
+            let displayPic = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`;
+
+            // செக் பண்றோம்: இந்த லிஸ்ட்ல இருக்குற நபர் தான் லாகின் செஞ்சவர் (Thivash) என்றால்...
+            // அவர் ப்ரொபைல்ல மாத்துன புது போட்டோவை இங்கே வைக்கிறோம்
+            if (String(user.phone).trim() === uPhone && savedPic) {
+                displayPic = savedPic;
+            }
 
             if(user.rank === "Elite Master") { 
                 effect = "border: 2.5px solid #ff007a; box-shadow: 0 0 10px rgba(255, 0, 122, 0.5);"; 
@@ -793,8 +807,8 @@ window.addEventListener('load', () => {
             list.innerHTML += `
                 <div style="text-align: center; min-width: 80px;">
                     <div style="position: relative; display: inline-block;">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}" 
-                             style="width: 55px; height: 55px; border-radius: 50%; background: #1a1a1a; ${effect}">
+                        <img src="${displayPic}" 
+                             style="width: 55px; height: 55px; border-radius: 50%; background: #1a1a1a; object-fit: cover; ${effect}">
                     </div>
                     <div style="font-size: 0.75rem; font-weight: bold; color: white; margin-top: 8px;">${user.name}</div>
                     <div style="font-size: 0.65rem; color: ${rankColor}; font-weight: bold;">${user.rank}</div>
@@ -802,6 +816,7 @@ window.addEventListener('load', () => {
             `;
         });
     }
+
     function changeProfilePic(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();

@@ -560,33 +560,54 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     }
 
     function updateProfileUI() {
-        const uPhone = String(localStorage.getItem('ff_userphone') || "").trim();
-        const uName = localStorage.getItem('ff_username') || "Soldier";
-        const userData = registeredUsers.find(u => String(u.phone).trim() === uPhone);
+    const uPhone = String(localStorage.getItem('ff_userphone') || "").trim();
+    const uName = localStorage.getItem('ff_username') || "Soldier";
+    const userData = registeredUsers.find(u => String(u.phone).trim() === uPhone);
 
-        const pName = document.getElementById('p-name');
-        const pPhone = document.getElementById('p-phone');
-        const pCoins = document.getElementById('p-coins');
-        const pRank = document.getElementById('p-rank');
-        const pImg = document.getElementById('profile-pic-main');
+    const pName = document.getElementById('p-name');
+    const pPhone = document.getElementById('p-phone');
+    const pCoins = document.getElementById('p-coins');
+    const pRank = document.getElementById('p-rank');
+    const pImg = document.getElementById('profile-pic-main');
+    const profileWrapper = pImg.parentElement;
 
-        if (!pName || !pPhone) return; // Prevent errors if elements not found
+    if (!pName || !pPhone) return;
 
-        // Basic Info
-        pName.innerText = userData ? userData.name : uName;
-        pPhone.innerText = "+91 " + uPhone;
+    // Reset Classes & Old Crown (Ithu romba mukkiyam)
+    pImg.className = ""; 
+    const oldCrown = document.querySelector('.crown-overlay');
+    if (oldCrown) oldCrown.remove();
 
-        // Stats Update
-        if(userData) {
-            document.querySelectorAll('.stat-item div')[0].innerText = userData.deals;
-            pCoins.innerText = userData.level;
-            pRank.innerText = userData.rank;
+    // Basic Data
+    pName.innerText = userData ? userData.name : uName;
+    pPhone.innerText = "+91 " + uPhone;
+
+    if(userData) {
+        document.querySelectorAll('.stat-item div')[0].innerText = userData.deals;
+        pCoins.innerText = userData.level;
+        pRank.innerText = userData.rank;
+
+        // Rank Effects & Crown Adding
+        if(userData.rank === "Elite Master") {
+            pImg.classList.add('profile-img-master');
+            profileWrapper.insertAdjacentHTML('afterbegin', '<i class="fas fa-crown crown-overlay" style="color:#ff007a"></i>');
+        } 
+        else if(userData.rank === "Elite") {
+            pImg.classList.add('profile-img-elite');
+            profileWrapper.insertAdjacentHTML('afterbegin', '<i class="fas fa-crown crown-overlay" style="color:#00ff88; font-size: 1.2rem; top:-15px;"></i>');
         }
-
-        // Rank Effects logic (Optional styling)
-        pImg.className = ""; // Reset classes
-        if(userData && userData.rank === "Elite Master") pImg.classList.add('profile-img-master');
+        else if(userData.rank === "Gold") {
+            pImg.classList.add('profile-img-gold');
+        }
+    } else {
+        // Default values for new users
+        document.querySelectorAll('.stat-item div')[0].innerText = "0";
+        pCoins.innerText = "0";
+        pRank.innerText = "Bronze";
     }
+}
+
+    
 
     function logout() {
         if(confirm("Logout seiya nichayamaga virumbugireergal?")) {

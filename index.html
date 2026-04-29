@@ -526,19 +526,33 @@ function verifyOTP() {
             
     // --- 3. PAGE NAVIGATION & PROFILE SYSTEM ---
     function showPage(pId, el) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-        document.getElementById(pId).classList.add('active-page');
-        
-        document.getElementById('search-area').style.display = (pId === 'buy') ? 'block' : 'none';
-
-        if(pId === 'profile-page') {
-            updateProfileUI();
-        }
-
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        if (el) el.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 1. Ella page-aiyum hide pannu
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+    
+    // 2. Click panna page-ai matum kaatu
+    document.getElementById(pId).classList.add('active-page');
+    
+    // 3. SEARCH AREA LOGIC (Ithu thaan mukkiyam!)
+    // Buy page-la iruntha matum Search box theriyanum, mathatha ellathulayum hide aaganum
+    if (pId === 'buy') {
+        document.getElementById('search-area').style.display = 'block';
+    } else {
+        document.getElementById('search-area').style.display = 'none';
     }
+
+    // 4. Profile update logic
+    if(pId === 'profile-page') {
+        updateProfileUI();
+    }
+
+    // 5. Navigation icon color change
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (el) el.classList.add('active');
+
+    // 6. Page top-ku poidum
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
     function updateProfileUI() {
     const uPhone = String(localStorage.getItem('ff_userphone') || "").trim();
     const uName = localStorage.getItem('ff_username') || "Soldier";

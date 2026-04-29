@@ -352,6 +352,14 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         <div class="verified-badge">Verified ✅</div>
         <button class="btn-action" style="margin-top: 15px;" onclick="showPage('buy', document.getElementById('nav-buy'))">Visit Store</button>
     </div>
+    <div class="hero-card" style="background: rgba(255, 215, 0, 0.05); border-color: rgba(255, 215, 0, 0.3); padding: 15px; margin-top: 20px;">
+    <h3 style="color: #ffd700; font-family: 'Orbitron'; font-size: 0.9rem; margin-bottom: 15px; text-align: left;">
+        <i class="fas fa-crown"></i> TOP ELITE SOLDIERS
+    </h3>
+    <div id="top-users-list" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;">
+        </div>
+</div>
+
     <div class="trust-grid">
         <div class="trust-item"><i class="fas fa-shield-alt"></i><p>Secure<br>Payment</p></div>
         <div class="trust-item"><i class="fas fa-bolt"></i><p>Fast<br>Delivery</p></div>
@@ -482,15 +490,18 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         { phone: "1234567890", name: "Arun", rank: "Gold", deals: "5", level: "62" }
     ];
 
-    // --- 2. LOADING & AUTH LOGIC ---
+
+        // --- 2. LOADING & AUTH LOGIC ---
     window.addEventListener('load', () => {
         setTimeout(() => {
             const loader = document.getElementById('preloader');
             if (loader) loader.classList.add('fade-out');
             checkAuth();
-            updateProfileUI(); // Initial-ah profile load panna
+            updateProfileUI(); // ப்ரொபைல் அப்டேட் பண்ண
+            loadLeaderboard(); // இதோ இங்கதான் லீடர்போர்டு லோடு பண்ற வரியைச் சேர்க்கணும்!
         }, 2000);
     });
+
 
     function checkAuth() {
         const savedName = localStorage.getItem('ff_username');
@@ -682,6 +693,44 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         let msg = `*SELL REQUEST*%0AName: ${n}%0APrice: ₹${pr}`;
         window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
     }
+        // --- LEADERBOARD LOGIC ---
+    function loadLeaderboard() {
+        const list = document.getElementById('top-users-list');
+        if(!list) return;
+
+        // இதோ இந்த வரி தான் ரெண்டு வாட்டி வராம தடுக்கும்
+        list.innerHTML = ""; 
+
+        registeredUsers.forEach(user => {
+            let effect = "border: 2px solid rgba(255,255,255,0.1);";
+            let rankColor = "#94a3b8";
+
+            if(user.rank === "Elite Master") { 
+                effect = "border: 2.5px solid #ff007a; box-shadow: 0 0 10px rgba(255, 0, 122, 0.5);"; 
+                rankColor = "#ff007a";
+            } 
+            else if(user.rank === "Elite") { 
+                effect = "border: 2.5px solid #00ff88; box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);"; 
+                rankColor = "#00ff88";
+            }
+            else if(user.rank === "Gold") { 
+                effect = "border: 2.5px solid #ffd700;"; 
+                rankColor = "#ffd700";
+            }
+
+            list.innerHTML += `
+                <div style="text-align: center; min-width: 80px;">
+                    <div style="position: relative; display: inline-block;">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}" 
+                             style="width: 55px; height: 55px; border-radius: 50%; background: #1a1a1a; ${effect}">
+                    </div>
+                    <div style="font-size: 0.75rem; font-weight: bold; color: white; margin-top: 8px;">${user.name}</div>
+                    <div style="font-size: 0.65rem; color: ${rankColor}; font-weight: bold;">${user.rank}</div>
+                </div>
+            `;
+        });
+    }
+
 </script>
 
 

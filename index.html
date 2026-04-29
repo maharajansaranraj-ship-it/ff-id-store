@@ -270,6 +270,22 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50% { transform: translateX(-50%) translateY(-8px); }
 }
+        /* --- Fix for Page Visibility --- */
+.page {
+    display: none; /* Default-ah hide-la irukkum */
+}
+
+.active-page {
+    display: block !important; /* Click panna forced-ah show aagum */
+}
+
+/* --- Fix for Background Clicks --- */
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Loader hidden aana pinnala background content-ai click panna mudiyum */
+}
+
 
 
     </style>
@@ -527,23 +543,21 @@ function verifyOTP() {
             
     // --- 3. PAGE NAVIGATION & PROFILE SYSTEM ---
     function showPage(pId, el) {
-    // 1. Ella page-aiyum common-ah select panni hide pannu
+    // 1. All pages hide pannu
     const allPages = document.querySelectorAll('.page');
     allPages.forEach(p => {
         p.classList.remove('active-page');
-        // display: none; panni style-ai clear pannunga
-        p.style.display = 'none'; 
+        p.style.setProperty('display', 'none', 'important'); 
     });
     
-    // 2. Target panna page-ai mattum select pannu
+    // 2. Target page show pannu
     const targetPage = document.getElementById(pId);
     if (targetPage) {
         targetPage.classList.add('active-page');
-        // Inline style kudutha thaan class override aagum
-        targetPage.style.display = 'block'; 
+        targetPage.style.setProperty('display', 'block', 'important');
     }
     
-    // 3. Search area (Buy page-la mattum thaan theriyanum)
+    // 3. Search area visibility
     const searchArea = document.getElementById('search-area');
     if (pId === 'buy') {
         searchArea.style.display = 'block';
@@ -551,18 +565,13 @@ function verifyOTP() {
         searchArea.style.display = 'none';
     }
 
-    // 4. Profile system update
-    if(pId === 'profile-page') {
-        updateProfileUI();
-    }
+    // 4. Update Profile
+    if(pId === 'profile-page') updateProfileUI();
 
-    // 5. Navigation Icon Active State
+    // 5. Active Nav Highlight
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if (el) {
-        el.classList.add('active');
-    }
+    if (el) el.classList.add('active');
 
-    // 6. Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

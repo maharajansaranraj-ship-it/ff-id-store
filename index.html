@@ -94,11 +94,13 @@
     50% { opacity: 1; }
 }
 
-/* Smooth Fade Out */
+/* Smooth Fade Out - Intha idathula dhaan add pannanum */
 .fade-out {
     opacity: 0;
     visibility: hidden;
+    pointer-events: none; /* <--- Intha line dhaan unga buttons-ai click panna vaikkum */
 }
+
 
 
         header { 
@@ -271,13 +273,17 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
     50% { transform: translateX(-50%) translateY(-8px); }
 }
         /* --- Fix for Page Visibility --- */
-.page {
-    display: none; /* Default-ah hide-la irukkum */
+/* Pathu dharava check pannikonga, ithu ippadiye irukanum */
+.page { 
+    display: none !important; /* Force-ah hide pannum */
+    padding: 20px; 
+    animation: fadeIn 0.4s ease-out; 
 }
 
-.active-page {
-    display: block !important; /* Click panna forced-ah show aagum */
+.active-page { 
+    display: block !important; /* Force-ah show pannum */
 }
+
 
 /* --- Fix for Background Clicks --- */
 .fade-out {
@@ -542,39 +548,29 @@ function verifyOTP() {
 
             
     // --- 3. PAGE NAVIGATION & PROFILE SYSTEM ---
-    function showPage(pId, el) {
-    // 1. All pages hide pannu
-    const allPages = document.querySelectorAll('.page');
-    allPages.forEach(p => {
+   function showPage(pId, el) {
+    // 1. Ella page-laiyum active class-ai remove pannu
+    document.querySelectorAll('.page').forEach(p => {
         p.classList.remove('active-page');
-        p.style.setProperty('display', 'none', 'important'); 
     });
     
-    // 2. Target page show pannu
-    const targetPage = document.getElementById(pId);
-    if (targetPage) {
-        targetPage.classList.add('active-page');
-        targetPage.style.setProperty('display', 'block', 'important');
+    // 2. Select panna page-ku mattum active class-ai podu
+    const target = document.getElementById(pId);
+    if (target) {
+        target.classList.add('active-page');
     }
     
-    // 3. Search area visibility
-    const searchArea = document.getElementById('search-area');
-    if (pId === 'buy') {
-        searchArea.style.display = 'block';
-    } else {
-        searchArea.style.display = 'none';
+    // 3. Search area logic
+    document.getElementById('search-area').style.display = (pId === 'buy') ? 'block' : 'none';
+
+    // 4. Nav bar highlight
+    if(el) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
     }
-
-    // 4. Update Profile
-    if(pId === 'profile-page') updateProfileUI();
-
-    // 5. Active Nav Highlight
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if (el) el.classList.add('active');
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
+ 
     
 
     function updateProfileUI() {

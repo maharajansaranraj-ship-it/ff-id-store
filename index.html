@@ -654,7 +654,7 @@ body.light-mode .id-card, body.light-mode .search-box { background: white; borde
         document.querySelectorAll('#id-list .id-card').forEach(card => {
             let priceText = card.querySelector('.price').innerText;
             let price = parseInt(priceText.replace(/[^0-9]/g, ''));
-            card.style.display = (price <= maxPrice * 1.1) ? "block" : "none";
+            card.style.display = (price <= maxPrice ) ? "block" : "none";
         });
     }
 
